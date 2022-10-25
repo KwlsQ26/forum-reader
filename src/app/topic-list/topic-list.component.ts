@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HackerNewsService } from '../services/hacker-news.service';
 
 @Component({
   selector: 'app-topic-list',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopicListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private hackerNewsService: HackerNewsService) { }
 
   ngOnInit() {
+    this.testGet();
+  }
+
+  testGet() {
+    this.hackerNewsService.testGet().subscribe(res => {
+      console.log(res);
+    }, err => {
+      console.log(err);
+    }
+    );
   }
 
 }
