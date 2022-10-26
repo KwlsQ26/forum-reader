@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin, zip } from 'rxjs';
-import { HackerNewsService } from '../services/hacker-news.service';
+import { HackerNewsService, Question } from '../services/hacker-news.service';
 
 @Component({
   selector: 'app-topic-list',
@@ -8,21 +7,23 @@ import { HackerNewsService } from '../services/hacker-news.service';
   styleUrls: ['./topic-list.component.css']
 })
 export class TopicListComponent implements OnInit {
+  public questionsList: Array<Question> = [];
+  constructor(private hackerNewsService: HackerNewsService) {
 
-  constructor(private hackerNewsService: HackerNewsService) { }
-  public questionsList = [];
-  ngOnInit() {
-    this.getNews();
   }
 
-  getNews() {
-    this.hackerNewsService.getAllNewsId().subscribe(res => {
+  ngOnInit() {
+    this.getQuestions();
+  }
+
+  getQuestions() {
+    this.hackerNewsService.getAllNewsId().subscribe(async res => {
       const questions = res.slice(0, 20);
 
       Promise.all(
-        questions.map(questionId => {
+        questions.map(async questionId => {
           this.hackerNewsService.getNewsDetailById(questionId).toPromise()
-            .then(val => {
+            .then(async val => {
               this.questionsList.push(val);
             }).catch(err1 => {
               console.log(err1);

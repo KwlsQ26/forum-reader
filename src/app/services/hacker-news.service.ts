@@ -16,14 +16,25 @@ export class HackerNewsService {
   getAllNewsId() {
     const url = `${this.hackerNewsPrefix}askstories${this.hackerNewsSuffix}`;
 
-    return this.http
-      .get<any>(url, httpOptions);
-      // .pipe(concatMap(val => this.http.get(`${this.hackerNewsPrefix}item/${val}${this.hackerNewsSuffix}`)));
+    return this.http.get<Array<number>>(url, httpOptions);
   }
 
   getNewsDetailById(id: number) {
     const url = `${this.hackerNewsPrefix}item/${id}${this.hackerNewsSuffix}`;
-    return this.http
-      .get<any>(url, httpOptions);
+    return this.http.get<Question>(url, httpOptions);
   }
+}
+
+export interface Question {
+
+  readonly by: string;
+  readonly descendants: number;
+  readonly id: number;
+  readonly kids: Array<number>;
+  readonly score: number;
+  readonly text: string;
+  readonly time: number;
+  readonly title: string;
+  readonly type: string;
+
 }
