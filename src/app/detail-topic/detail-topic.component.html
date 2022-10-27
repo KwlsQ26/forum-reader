@@ -1,3 +1,15 @@
-<p>
-  detail-topic works!
-</p>
+<ng-container>
+  <h1>{{questionDetail.title}}</h1>
+  <h2 [innerHtml]="questionDetail.text"></h2>
+  <br/>
+  <h1 *ngIf="comments !== []">Comments :</h1>
+  <h1 *ngIf="comments.length <= 0">Loading Data . . . </h1>
+
+  <ul  *ngFor="let comment of comments">
+    <li>
+      <h3>{{comment.by}}</h3>
+      <h3 [innerHtml]="comment.text"> </h3>
+    </li>
+  </ul>
+</ng-container>
+

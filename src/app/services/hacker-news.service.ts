@@ -3,12 +3,18 @@ import { Observable } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { httpOptions } from './http.util';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HackerNewsService {
-  constructor(private http: HttpClient) { }
+  questionDetail: Question;
+
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) { }
 
   private hackerNewsPrefix = 'https://hacker-news.firebaseio.com/v0/';
   private hackerNewsSuffix = '.json?print=pretty';
@@ -22,6 +28,11 @@ export class HackerNewsService {
   getNewsDetailById(id: number) {
     const url = `${this.hackerNewsPrefix}item/${id}${this.hackerNewsSuffix}`;
     return this.http.get<Question>(url, httpOptions);
+  }
+
+  openQuestionDetail(question: Question) {
+    this.router.navigate(['detail']);
+    this.questionDetail = question;
   }
 }
 

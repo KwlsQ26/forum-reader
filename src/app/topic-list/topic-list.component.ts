@@ -8,7 +8,9 @@ import { HackerNewsService, Question } from '../services/hacker-news.service';
 })
 export class TopicListComponent implements OnInit {
   public questionsList: Array<Question> = [];
-  constructor(private hackerNewsService: HackerNewsService) {
+  constructor(
+    private hackerNewsService: HackerNewsService,
+  ) {
 
   }
 
@@ -21,9 +23,9 @@ export class TopicListComponent implements OnInit {
       const questions = res.slice(0, 20);
 
       Promise.all(
-        questions.map(async questionId => {
+        questions.map(questionId => {
           this.hackerNewsService.getNewsDetailById(questionId).toPromise()
-            .then(async val => {
+            .then(val => {
               this.questionsList.push(val);
             }).catch(err1 => {
               console.log(err1);
@@ -36,4 +38,7 @@ export class TopicListComponent implements OnInit {
     );
   }
 
+  onClickQuestion(question) {
+    this.hackerNewsService.openQuestionDetail(question);
+  }
 }

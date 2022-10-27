@@ -1,3 +1,14 @@
-<p>
-  topic-list works!
-</p>
+<ng-container *ngIf="questionsList !== []">
+  <div style="cursor: pointer;" *ngFor="let question of questionsList;index as i" (click)="onClickQuestion(question)">
+    <h2>
+      {{i+1}}. {{question.title}}
+    </h2>
+    <h3>
+      {{question.score}} points by {{question.by}} created at : {{question.time * 1000 | date}} 
+        | {{question.kids ? question.kids.length : 0}} Comments
+    </h3>
+    <br/>
+  </div>
+</ng-container>
+<h1 *ngIf="questionsList.length <= 20">Loading Data . . . </h1>
+
